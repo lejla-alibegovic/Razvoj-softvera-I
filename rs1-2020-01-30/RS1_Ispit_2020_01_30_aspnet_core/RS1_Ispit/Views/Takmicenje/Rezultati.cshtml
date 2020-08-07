@@ -1,0 +1,36 @@
+﻿@model RS1_Ispit_asp.net_core.ViewModels.TakmicenjeRezultatiVM
+@{
+    ViewData["Title"] = "Rezultati";
+}
+<div>
+    <h4>Škola domaćin: @Model.SkolaDomacin</h4>
+    <h4>Predmet: @Model.Predmet</h4>
+    <h4>Razred: @Model.Razred</h4>
+    <h4>Datum: @Model.Datum</h4>
+</div>
+@if (Model.Zakljucano)
+{
+    <span>Zaključano</span>
+}
+else
+{
+    <a class="btn btn-primary" asp-action="Zakljucaj" asp-route-TakmicenjeId="@Model.TakmicenjeId">Zakljucaj</a>
+}
+<br />
+<br />
+<br />
+<br />
+<div id="ajaxDiv" style="border:1px solid black; padding:10px;"></div>
+<br />
+<br />
+<a class="btn btn-primary" asp-action="Dodaj" asp-route-SkolaDomacinId="@Model.SkolaDomacinId">Novo takmicenje</a>
+
+
+<script>
+    $(function () {
+        $.get("/Ajax/TakmicenjeStavke?TakmicenjeId=@Model.TakmicenjeId", function (data) {
+            $("#ajaxDiv").html(data);
+        })
+    })
+
+</script>
