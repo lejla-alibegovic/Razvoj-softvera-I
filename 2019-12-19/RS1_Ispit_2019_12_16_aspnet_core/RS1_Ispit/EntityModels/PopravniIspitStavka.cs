@@ -17,5 +17,7 @@ namespace RS1_Ispit_asp.net_core.EntityModels
         public int OdjeljenjeStavkaId { get; set; }
         public bool IsPristupio { get; set; }
         public float? Bodovi { get; set; }
+        public bool MozePristupit { get; set; }
+        public int BrojUDnevniku { get; set; }
     }
 }

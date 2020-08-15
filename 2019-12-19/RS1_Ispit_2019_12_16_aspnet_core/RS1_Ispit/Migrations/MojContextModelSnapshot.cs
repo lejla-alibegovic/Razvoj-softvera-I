@@ -151,7 +151,11 @@ namespace RS1_Ispit_asp.net_core.Migrations
 
                     b.Property<float?>("Bodovi");
 
+                    b.Property<int>("BrojUDnevniku");
+
                     b.Property<bool>("IsPristupio");
+
+                    b.Property<bool>("MozePristupit");
 
                     b.Property<int>("OdjeljenjeStavkaId");
 
