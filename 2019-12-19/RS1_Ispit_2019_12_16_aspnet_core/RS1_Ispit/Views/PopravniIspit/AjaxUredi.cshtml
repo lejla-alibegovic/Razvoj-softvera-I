@@ -1,0 +1,15 @@
+﻿@model RS1_Ispit_asp.net_core.ViewModels.AjaxUrediVM
+@{
+    ViewData["Title"] = "AjaxUredi";
+}
+
+<form asp-action="AjaxSnimi" asp-for="@Model.PopravniIspitStavkaId" ajax-poziv="da" ajax-rezultat="ajaxDiv">
+    <input type="hidden" asp-for="PopravniIspitStavkaId"/>
+    <label>Ucenik</label>
+    <input readonly @Model.Ucenik/>
+    <label>Bodovi: </label>
+    <input asp-for="Bodovi"/>
+    <br />
+    <input type="submit" value="Snimi" class="btn btn-primary"/>
+</form>
+
