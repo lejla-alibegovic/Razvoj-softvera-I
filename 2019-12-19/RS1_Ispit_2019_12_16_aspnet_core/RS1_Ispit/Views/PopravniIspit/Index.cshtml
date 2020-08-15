@@ -1,0 +1,21 @@
+﻿@model RS1_Ispit_asp.net_core.ViewModels.PopravniIspitIndexVM
+@{
+    ViewData["Title"] = "Index";
+}
+
+<form asp-action="Prikaz">
+    <label>Školska godina: </label>
+    <select class="form-control" asp-for="SkolskaGodinaId" asp-items="@Model.SkolskeGodine"></select>
+    <label>Škola: </label>
+    <select asp-for="SkolaId" asp-items="@Model.Skole" class="form-control"></select>
+    <lable>Razred: </lable>
+    <select class="form-control">
+        <option value="1">1</option>
+        <option value="2">2</option>
+        <option value="3">3</option>
+        <option value="4">4</option>
+    </select>
+    <br /><br />
+    <input value="Odaberi" type="submit" class="btn btn-primary"/>
+</form>
+
