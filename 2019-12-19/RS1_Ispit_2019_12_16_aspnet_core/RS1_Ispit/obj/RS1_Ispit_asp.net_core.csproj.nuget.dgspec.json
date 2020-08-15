@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\Lejla\\Desktop\\RS1_Ispit_2019_12_16_aspnet_core\\RS1_Ispit\\RS1_Ispit_asp.net_core.csproj": {}
+    "C:\\Users\\Lejla\\Documents\\GitHub\\Razvoj-softvera-I\\2019-12-19\\RS1_Ispit_2019_12_16_aspnet_core\\RS1_Ispit\\RS1_Ispit_asp.net_core.csproj": {}
   },
   "projects": {
-    "C:\\Users\\Lejla\\Desktop\\RS1_Ispit_2019_12_16_aspnet_core\\RS1_Ispit\\RS1_Ispit_asp.net_core.csproj": {
+    "C:\\Users\\Lejla\\Documents\\GitHub\\Razvoj-softvera-I\\2019-12-19\\RS1_Ispit_2019_12_16_aspnet_core\\RS1_Ispit\\RS1_Ispit_asp.net_core.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\Lejla\\Desktop\\RS1_Ispit_2019_12_16_aspnet_core\\RS1_Ispit\\RS1_Ispit_asp.net_core.csproj",
+        "projectUniqueName": "C:\\Users\\Lejla\\Documents\\GitHub\\Razvoj-softvera-I\\2019-12-19\\RS1_Ispit_2019_12_16_aspnet_core\\RS1_Ispit\\RS1_Ispit_asp.net_core.csproj",
         "projectName": "RS1_Ispit_asp.net_core",
-        "projectPath": "C:\\Users\\Lejla\\Desktop\\RS1_Ispit_2019_12_16_aspnet_core\\RS1_Ispit\\RS1_Ispit_asp.net_core.csproj",
+        "projectPath": "C:\\Users\\Lejla\\Documents\\GitHub\\Razvoj-softvera-I\\2019-12-19\\RS1_Ispit_2019_12_16_aspnet_core\\RS1_Ispit\\RS1_Ispit_asp.net_core.csproj",
         "packagesPath": "C:\\Users\\Lejla\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\Lejla\\Desktop\\RS1_Ispit_2019_12_16_aspnet_core\\RS1_Ispit\\obj\\",
+        "outputPath": "C:\\Users\\Lejla\\Documents\\GitHub\\Razvoj-softvera-I\\2019-12-19\\RS1_Ispit_2019_12_16_aspnet_core\\RS1_Ispit\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder"
