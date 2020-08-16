@@ -1,0 +1,42 @@
+﻿@model RS1_Ispit_asp.net_core.ViewModels.PopravniIspitDodajVM
+@{
+    ViewData["Title"] = "Uredi";
+}
+
+<h2>Uređivanje popravnog ispita</h2>
+
+<form asp-action="Snimi">
+    <label>1. Clan Komisije</label>
+    <select class="form-control"disabled asp-for="@Model.ClanKomisije1Id" asp-items="@Model.ClanoviKomisije"></select>
+    <label>2. Clan Komisije</label>
+    <select class="form-control"disabled asp-for="@Model.ClanKomisije2Id" asp-items="@Model.ClanoviKomisije"></select>
+    <label>3. Clan Komisije</label>
+    <select class="form-control"disabled asp-for="@Model.ClanKomisije3Id" asp-items="@Model.ClanoviKomisije"></select>
+    <label>Datum: </label>
+    <input class="form-control"readonly asp-for="@Model.Datum" />
+    <label>Predmet</label>
+    <select class="form-control" disabled asp-for="@Model.PredmetId" asp-items="@Model.Predmeti"></select>
+    <label>Škola</label>
+    <input readonly class="form-control" asp-for="@Model.Skola" />
+    <label>Školska godina</label>
+    <input class="form-control"readonly asp-for="@Model.SkolskaGodina" />
+    <label>Razred </label>
+    <input class="form-control"readonly asp-for="@Model.Razred" />
+
+    <input type="hidden" asp-for="@Model.SkolskaGodinaId" />
+    <input type="hidden" asp-for="@Model.SkolaId" />
+    <input type="hidden" asp-for="@Model.Razred" />
+</form>
+
+<div id="ajaxDiv"  style="border:1px solid black; padding:10px;"></div>
+
+<a href="#" class="btn btn-primary"> Dodaj ucenika</a>
+<a href="/PopravniIspit/Dodaj?SkolaId=@Model.SkolaId&Razred=@Model.Razred&SkolskaGodinaId=@Model.SkolskaGodinaId" class="btn btn-primary">Dodaj</a>
+
+
+<script>
+    $.get("/PopravniIspit/AjaxPrikazUcenika/@Model.PopravniIspitId", function (data) {
+        $("#ajaxDiv").html(data);
+    })
+
+</script>
