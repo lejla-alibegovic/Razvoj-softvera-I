@@ -1,0 +1,61 @@
+﻿@model IEnumerable<RS1_Ispit_asp.net_core.ViewModels.AjaxPrikazUcenikaVM>
+@{
+    ViewData["Title"] = "AjaxPrikazUcenika";
+}
+<table class="table table-bordered center">
+    <thead>
+        <tr>
+            <th>Učenik</th>
+            <th>Odjeljenje</th>
+            <th>Broj u dnevniku</th>
+            <th>Prisutan</th>
+            <th>Bodovi</th>
+            <th>Akcija</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var x in Model)
+        {
+            <tr>
+                <td>@x.Ucenik</td>
+                <td>@x.Odjeljenje</td>
+                <td>@x.BrojUDnevniku</td>
+                <td>
+                    @if (x.MozePristupit)
+                    {
+                        <a ajax-poziv="da" ajax-rezultat="ajaxDiv"asp-action="@(x.IsPrisutan? "UcenikJeOdsutan":"UcenikJePrisutan")" asp-route-PopravniIspitStavkaId="@x.PopravniIspitStavkaId" style="color:white;background-color:@(x.IsPrisutan ? "green" :"red")">
+                            @(x.IsPrisutan? "DA" : "NE")
+                        </a>
+                    }
+                    else
+                    {
+                        <a style="color:red">Nema pravo na popravni!</a>
+                    }
+                </td>
+                <td>
+                    @if (x.MozePristupit)
+                    {
+                        <form ajax-poziv="da" ajax-rezultat="ajaxDiv" action="/PopravniIspit/UpdateBodova">
+                            <input type="hidden" name="StavkaId" value="@x.PopravniIspitStavkaId" />
+                            <input style="text-align:center;" value="@x.Bodovi" name="Bodovi" />
+                            <input type="submit" style="visibility:hidden;" />
+                        </form>
+                    }
+                    else
+                    {
+                        @x.Bodovi
+                    }
+
+                </td>
+                <td>
+                    @if (x.MozePristupit)
+                    {
+                        <a href="/PopravniIspit/AjaxUredi/@x.PopravniIspitStavkaId"  ajax-poziv="da" ajax-rezultat="ajaxDiv" >Uredi</a>
+                    }
+                </td>
+            </tr>
+        }
+
+    </tbody>
+
+</table>
