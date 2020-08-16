@@ -1,0 +1,22 @@
+﻿@model RS1_Ispit_asp.net_core.ViewModels.DodajVM
+@{
+    ViewData["Title"] = "Dodaj";
+}
+
+<h2>Dodaj maturski ispit</h2>
+
+<form asp-action="Snimi">
+    <input type="hidden" asp-for="@Model.NastavnikId" />
+    <label>Škola</label>
+    <select asp-for="SkolaId" asp-items="@Model.Skole" class="form-control"></select>
+    <br />
+    <p style="font-weight:700">Nastavnik: @Model.Nastavnik</p>
+    <p style="font-weight:700">Skolska godina: @Model.SkolskaGodina</p>
+    <label>Datum</label>
+    <input class="form-control" asp-for="Datum" />
+    <label>Predmet</label>
+    <select asp-for="PredmetId" asp-items="@Model.Predmeti" class="form-control"></select>
+    <br /><br />
+    <input class=" btn-primary" type="submit" value="Snimi" />
+</form>
+
