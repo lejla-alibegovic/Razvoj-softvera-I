@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using RS1_Ispit_asp.net_core.EF;
 using RS1_Ispit_asp.net_core.EntityModels;
@@ -56,5 +57,29 @@ namespace RS1_Ispit_asp.net_core.Controllers
             }
             return View(model);
         }
+
+        public IActionResult Dodaj(int NastavnikId)
+        {
+            DodajVM model = new DodajVM
+            {
+                NastavnikId = NastavnikId,
+                SkolskaGodina = db.SkolskaGodina.Where(x => x.Aktuelna).FirstOrDefault().Naziv,
+                Skole = db.Skola.Select(x => new SelectListItem
+                {
+                    Value = x.Id.ToString(),
+                    Text = x.Naziv
+                }).ToList(),
+                Predmeti = db.Predmet.Select(x => new SelectListItem
+                {
+                    Value = x.Id.ToString(),
+                    Text = x.Naziv
+                }).ToList(),
+                Nastavnik = db.Nastavnik.Where(x => x.Id == NastavnikId).Select(x => x.Ime + "  " + x.Prezime).FirstOrDefault()
+
+            };
+            return View(model);
+        }
+
+        
     }
 }
