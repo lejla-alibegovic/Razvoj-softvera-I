@@ -1,0 +1,38 @@
+﻿@model RS1_Ispit_asp.net_core.ViewModels.PrikazVM
+@{
+    ViewData["Title"] = "Prikaz";
+}
+
+<table class="table table-bordered text-center">
+    <thead>
+        <tr>
+            <th>Datum</th>
+            <th>Škola</th>
+            <th>Predmet</th>
+            <th>Nisu pristupili ucenici</th>
+            <th>Akcija</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach(var x in Model.Rows)
+        {
+            <tr>
+                <td>@x.Datum</td>
+                <td>@x.Škola</td>
+                <td>@x.Predmet</td>
+                <td>
+                    @foreach(var z in x.NisuPristupili)
+                    {
+                        <span>@z, </span>
+                    }
+                </td>
+                <td>
+                    <a asp-action="Uredi" asp-route-MaturskiIspitId="@x.MaturskiIspitId">Uredi</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+
+</table>
+
+<a asp-action="Dodaj" asp-route-NastavnikId="@Model.NastavnikId" class="btn btn-primary">Dodaj</a>
