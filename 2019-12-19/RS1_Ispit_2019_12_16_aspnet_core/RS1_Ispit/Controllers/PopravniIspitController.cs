@@ -125,5 +125,95 @@ namespace RS1_Ispit_asp.net_core.Controllers
   
             return RedirectToAction("Prikaz", new PopravniIspitPrikazVM { Razred = model.Razred, SkolaId = model.SkolaId, SkolskaGodinaId = model.SkolskaGodinaId });
         }
+
+        public IActionResult Uredi(int Id)
+        {
+            PopravniIspit ispit = db.PopravniIspit.Where(x => x.Id == Id).SingleOrDefault();
+            PopravniIspitDodajVM vm = new PopravniIspitDodajVM
+            {
+                SkolskaGodinaId = ispit.SkolskaGodinaId,
+                SkolaId = ispit.SkolaId,
+                PredmetId=ispit.PredmetId,
+                Predmeti=db.Predmet.Select(x => new SelectListItem
+                {
+                    Value = x.Id.ToString(),
+                    Text = x.Naziv
+                }).ToList(),
+                Razred = ispit.Razred,
+                Datum = ispit.DatumIspita,
+                ClanKomisije1Id = ispit.ClanKomisije1Id,
+                ClanKomisije2Id = ispit.ClanKomisije2Id,
+                ClanKomisije3Id = ispit.ClanKomisije3Id,
+                Skola = db.Skola.Find(ispit.SkolaId).Naziv,
+                SkolskaGodina = db.SkolskaGodina.Find(ispit.SkolskaGodinaId).Naziv,
+                ClanoviKomisije = db.Nastavnik.Select(x => new SelectListItem
+                {
+                    Value = x.Id.ToString(),
+                    Text = x.Ime + " " + x.Prezime
+                }).ToList(),
+                PopravniIspitId = ispit.Id
+            };
+            return View("Uredi", vm);
+        }
+        public IActionResult AjaxPrikazUcenika(int Id)
+        {
+            IEnumerable<AjaxPrikazUcenikaVM> vm = db.PopravniIspitStavka.Where(x => x.PopravniIspitId == Id).Select(x => new AjaxPrikazUcenikaVM
+            {
+                Bodovi = x.Bodovi,
+                BrojUDnevniku = x.BrojUDnevniku,
+                MozePristupit = x.MozePristupit,
+                IsPrisutan = x.IsPristupio,
+                PopravniIspitStavkaId = x.Id,
+                Odjeljenje = x.OdjeljenjeStavka.Odjeljenje.Oznaka,
+                Ucenik = x.OdjeljenjeStavka.Ucenik.ImePrezime
+            }).ToList();
+            return PartialView(vm);
+        }
+        public IActionResult AjaxUredi(int Id)
+        {
+            PopravniIspitStavka stavka = db.PopravniIspitStavka.Where(x => x.Id == Id)
+                .Include(x => x.OdjeljenjeStavka)
+                .Include(x => x.OdjeljenjeStavka.Ucenik)
+                .SingleOrDefault();
+
+            AjaxUrediVM vm = new AjaxUrediVM
+            {
+                Bodovi = stavka.Bodovi,
+                PopravniIspitStavkaId = stavka.Id,
+                Ucenik = stavka.OdjeljenjeStavka.Ucenik.ImePrezime
+            };
+            return PartialView(vm);
+        }
+        public IActionResult UcenikJePrisutan(int PopravniIspitStavkaId)
+        {
+            PopravniIspitStavka ispit = db.PopravniIspitStavka.Where(x => x.Id == PopravniIspitStavkaId).SingleOrDefault();
+            ispit.IsPristupio = true;
+            db.SaveChanges();
+           return Redirect("/PopravniIspit/AjaxPrikazUcenika/" + ispit.PopravniIspitId);
+           
+        }
+        public IActionResult UcenikJeOdsutan(int PopravniIspitStavkaId)
+        {
+            PopravniIspitStavka ispit = db.PopravniIspitStavka.Where(x => x.Id == PopravniIspitStavkaId).SingleOrDefault();
+            ispit.IsPristupio = false;
+            db.SaveChanges();
+            return Redirect("/PopravniIspit/AjaxPrikazUcenika/" + ispit.PopravniIspitId);
+        }
+        public IActionResult AjaxSnimi(AjaxUrediVM model)
+        {
+            PopravniIspitStavka stavka = db.PopravniIspitStavka.Find(model.PopravniIspitStavkaId);
+            stavka.Bodovi = model.Bodovi;
+            stavka.IsPristupio = true;
+            db.SaveChanges();
+            return Redirect("/PopravniIspit/AjaxPrikazucenika/" + stavka.PopravniIspitId);
+        }
+
+        public IActionResult UpdateBodova(int StavkaId, int Bodovi)
+        {
+            var stavka = db.PopravniIspitStavka.Where(x => x.Id == StavkaId).SingleOrDefault();
+            stavka.Bodovi = Bodovi;
+            db.SaveChanges();
+            return Redirect("/PopravniIspit/AjaxPrikazucenika/" + stavka.PopravniIspitId);
+        }
     }
 }
