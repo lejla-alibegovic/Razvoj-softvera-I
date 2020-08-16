@@ -1,0 +1,26 @@
+﻿@model IEnumerable<RS1_Ispit_asp.net_core.ViewModels.OdrzanaNastavaIndexVM>
+@{
+    ViewData["Title"] = "Index";
+}
+<table class="table table-bordered text-center" >
+    <thead>
+        <tr>
+            <th>Škola</th>
+            <th>Ime i prezime nastavnika</th>
+            <th>Akcija</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach(var x in Model)
+        {
+            <tr>
+                <td>@x.Skola</td>
+                <td>@x.Nastavnik</td>
+                <td>
+                    <a asp-action="Prikaz" asp-route-NastavnikId="@x.NastavnikId">Odaberi</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+
+</table>
