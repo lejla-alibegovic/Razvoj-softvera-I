@@ -22,5 +22,6 @@ namespace RS1_Ispit_asp.net_core.ViewModels
         public int SkolskaGodinaId { get; set; }
         public string SkolskaGodina { get; set; }
         public int Razred { get; set; }
+        public int PopravniIspitId { get; set; }
     }
 }
