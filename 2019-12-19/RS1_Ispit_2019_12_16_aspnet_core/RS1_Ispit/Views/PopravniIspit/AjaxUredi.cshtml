@@ -6,9 +6,9 @@
 <form asp-action="AjaxSnimi" asp-for="@Model.PopravniIspitStavkaId" ajax-poziv="da" ajax-rezultat="ajaxDiv">
     <input type="hidden" asp-for="PopravniIspitStavkaId"/>
     <label>Ucenik</label>
-    <input readonly @Model.Ucenik/>
+    <input readonly class="form-control" asp-for="@Model.Ucenik"/>
     <label>Bodovi: </label>
-    <input asp-for="Bodovi"/>
+    <input asp-for="Bodovi" class="form-control"/>
     <br />
     <input type="submit" value="Snimi" class="btn btn-primary"/>
 </form>
