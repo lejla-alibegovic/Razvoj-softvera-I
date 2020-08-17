@@ -1,0 +1,27 @@
+﻿@model RS1_Ispit_asp.net_core.ViewModels.UrediVM
+@{
+    ViewData["Title"] = "Uredi";
+}
+
+<h2>Uređivanje maturskog ispita</h2>
+
+<form action="/OdrzanaNastava/AjaxSnimi">
+    <input type="hidden" asp-for="MaturskiIspitId" />
+
+    <label>Datum</label>
+    <input asp-for="Datum" readonly class="form-control" />
+    <label>Predmet</label>
+    <input asp-for="Predmet" readonly class="form-control" />
+    <label>Napomena</label>
+    <input class="form-control" asp-for="@Model.Napomena" />
+    <br /><br />
+    <input type="submit" class="btn btn-primary" value="Snimi" />
+</form>
+<br /><br />
+<div id="ajaxDiv" style="border:1px solid black;padding:10px;"></div>
+
+<script>
+    $.get("/OdrzanaNastava/AjaxPrikazUcenika/@Model.MaturskiIspitId", function (data) {
+        $("#ajaxDiv").html(data);
+    })
+</script>
