@@ -1,0 +1,50 @@
+﻿@model IEnumerable<RS1_Ispit_asp.net_core.ViewModels.AjaxPrikazVM>
+@{
+    ViewData["Title"] = "AjaxPrikazUcenika";
+}
+
+<table class="table table-bordered text-center">
+    <thead>
+        <tr>
+            <th>Učenik</th>
+            <th>Prosjek ocjena</th>
+            <th>Prisutan na ispitu</th>
+            <th>Rezultat maturskog (max 100)</th>
+            <th>Akcija</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach(var x in Model)
+        {
+            <tr>
+                <td>@x.Ucenik</td>
+                <td>@x.Prosjek</td>
+                <td>
+                    <a asp-action="@(x.IsPristupio?"UcenikJeOdsutan":"UcenikJePrisutan")" style="padding:5px; color:white; background-color:@(x.IsPristupio ? "green" : "red")" asp-route-MaturskiIspitStavkaId="@x.MaturskiIspitStavkaId" ajax-poziv="da" ajax-rezultat="ajaxDiv">
+                    @(x.IsPristupio ? "DA" : "NE")</a>  
+                </td>
+                <td>
+                    @if (!x.IsPristupio)
+                    {
+                        <span>x</span>
+                    }
+                    else
+                    {
+                        <form ajax-poziv="da" ajax-rezultat="ajaxDiv" action="/OdrzanaNastava/UpdateBodova">
+                            <input type="hidden" value="@x.MaturskiIspitStavkaId" />
+                            <input style="text-align:center;" type="number" name="BrojBodova" value="@x.BrojBodova" />
+                            <input style="visibility:hidden;" type="submit" />
+                        </form>
+                    }
+                </td>
+                <td>
+                    @if (x.IsPristupio)
+                    {
+                        <a ajax-poziv="da" ajax-rezultat="ajaxDiv" href="/OdrzanaNastava/AjaxUredi/@x.MaturskiIspitStavkaId" >Uredi</a>
+                    }
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+
