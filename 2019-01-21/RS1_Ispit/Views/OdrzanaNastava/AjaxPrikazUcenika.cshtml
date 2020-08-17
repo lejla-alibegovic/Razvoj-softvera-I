@@ -31,7 +31,7 @@
                     else
                     {
                         <form ajax-poziv="da" ajax-rezultat="ajaxDiv" action="/OdrzanaNastava/UpdateBodova">
-                            <input type="hidden" value="@x.MaturskiIspitStavkaId" />
+                            <input type="hidden" name="MaturskiIspitId" value="@x.MaturskiIspitStavkaId" />
                             <input style="text-align:center;" type="number" name="BrojBodova" value="@x.BrojBodova" />
                             <input style="visibility:hidden;" type="submit" />
                         </form>
@@ -40,7 +40,7 @@
                 <td>
                     @if (x.IsPristupio)
                     {
-                        <a ajax-poziv="da" ajax-rezultat="ajaxDiv" href="/OdrzanaNastava/AjaxUredi/@x.MaturskiIspitStavkaId" >Uredi</a>
+                        <a ajax-poziv="da" ajax-rezultat="ajaxDiv" asp-action="AjaxUredi" asp-route-MaturskiIspitStavkaId="@x.MaturskiIspitStavkaId" >Uredi</a>
                     }
                 </td>
             </tr>
