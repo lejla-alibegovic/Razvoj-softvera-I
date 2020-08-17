@@ -6,7 +6,6 @@
 <h2>Uređivanje maturskog ispita</h2>
 
 <form action="/OdrzanaNastava/AjaxSnimi">
-    <input type="hidden" asp-for="MaturskiIspitId" />
 
     <label>Datum</label>
     <input asp-for="Datum" readonly class="form-control" />
@@ -14,7 +13,10 @@
     <input asp-for="Predmet" readonly class="form-control" />
     <label>Napomena</label>
     <input class="form-control" asp-for="@Model.Napomena" />
+    <input type="hidden" asp-for="@Model.MaturskiIspitId" />
+
     <br /><br />
+
     <input type="submit" class="btn btn-primary" value="Snimi" />
 </form>
 <br /><br />
@@ -23,5 +25,5 @@
 <script>
     $.get("/OdrzanaNastava/AjaxPrikazUcenika/@Model.MaturskiIspitId", function (data) {
         $("#ajaxDiv").html(data);
-    })
+    });
 </script>
