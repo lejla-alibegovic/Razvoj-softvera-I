@@ -95,9 +95,7 @@ namespace RS1_Ispit_asp.net_core.Controllers
         }
         public IActionResult Snimi(DodajVM model)
         {
-            PredajePredmet p = db.PredajePredmet.Find(model.NastavnikId);
-            if (p != null)
-            {
+           
                 MaturskiIspit ispit = new MaturskiIspit
                 {
                     Datum = model.Datum,
@@ -128,9 +126,79 @@ namespace RS1_Ispit_asp.net_core.Controllers
                         db.SaveChanges();
                     }
                 }
-                return Redirect("Prikaz?NastavnikId=" + model.NastavnikId);
-            }
-            return Redirect("Index");
+                return Redirect("Prikaz?NastavnikId=" + model.NastavnikId); 
+        }
+        public IActionResult Uredi(int MaturskiIspitId)
+        {
+
+            UrediVM viewModel = db.MaturskiIspit.Where(x => x.Id == MaturskiIspitId).Select(x => new UrediVM
+            {
+                Datum = x.Datum.ToShortDateString(),
+                Predmet = x.Predmet.Naziv,
+                Napomena = x.Napomena,
+                MaturskiIspitId = x.Id
+            }).FirstOrDefault();
+
+            return View(viewModel);
+            
+        }
+        public IActionResult AjaxSnimi(UrediVM model)
+        {
+            MaturskiIspit ispit = db.MaturskiIspit.Find(model.MaturskiIspitId);
+            ispit.Napomena = model.Napomena;
+            db.SaveChanges();
+            return Redirect("/OdrzanaNastava/Uredi/" + model.MaturskiIspitId);  
+        }
+        public IActionResult AjaxPrikazUcenika(int ID)
+        {
+            IEnumerable<AjaxPrikazVM> vm = db.MaturskiIspitStavka.Where(x => x.MaturskiIspitId == ID).Select(x => new AjaxPrikazVM
+            {
+                IsPristupio = x.IsPristupio,
+                Prosjek = x.Prosjek,
+                BrojBodova = x.BrojBodova,
+                Ucenik = x.OdjeljenjeStavka.Ucenik.ImePrezime,
+                MaturskiIspitStavkaId = x.Id
+            });
+            return PartialView(vm);
+        }
+        public IActionResult UcenikJeOdsutan(int MaturskiIspitStavkaId)
+        {
+            MaturskiIspitStavka stavka = db.MaturskiIspitStavka.Where(x => x.Id == MaturskiIspitStavkaId).SingleOrDefault();
+            stavka.IsPristupio = false;
+            db.SaveChanges();
+            return Redirect("/OdrzanaNastava/AjaxPrikazUcenika" + stavka.Id);
+        }
+        public IActionResult UcenikJePrisutan(int MaturskiIspitStavkaId)
+        {
+            MaturskiIspitStavka stavka = db.MaturskiIspitStavka.Where(x => x.Id == MaturskiIspitStavkaId).SingleOrDefault();
+            stavka.IsPristupio = true;
+            db.SaveChanges();
+            return Redirect("/OdrzanaNastava/AjaxPrikazUcenika" + stavka.Id);
+        }
+        public IActionResult AjaxUredi(int id)
+        {
+            AjaxUrediVM vm = db.MaturskiIspitStavka.Where(x => x.Id == id).Select(x => new AjaxUrediVM
+            {
+                BrojBodova=x.BrojBodova,
+                Ucenik=x.OdjeljenjeStavka.Ucenik.ImePrezime,
+                MaturskiIspitStavkaId=x.Id
+            }).FirstOrDefault();
+            return PartialView(vm);
+        }
+        public IActionResult AjaxUrediSnimi(AjaxUrediVM model)
+        {
+            MaturskiIspitStavka stavka = db.MaturskiIspitStavka.Find(model.MaturskiIspitStavkaId);
+            stavka.BrojBodova = model.BrojBodova;
+            stavka.IsPristupio = true;
+            db.SaveChanges();
+            return Redirect("/OdrzanaNastava/AjaxPrikazUcenika/" + stavka.MaturskiIspitId);
+        }
+        public IActionResult UpdateBodova(int MaturskiIspitStavkaId,int Bodovi)
+        {
+            var stavka = db.MaturskiIspitStavka.Where(x => x.Id == MaturskiIspitStavkaId).SingleOrDefault();
+            stavka.BrojBodova = Bodovi;
+            db.SaveChanges();
+            return Redirect("/OdrzanaNastava/AjaxPrikazUcenika/" + stavka.MaturskiIspitId);
         }
     }
 }
