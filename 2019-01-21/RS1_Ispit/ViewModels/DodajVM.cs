@@ -14,7 +14,7 @@ namespace RS1_Ispit_asp.net_core.ViewModels
         public List<SelectListItem> Skole { get; set; }
         public int NastavnikId { get; set; }
         public string Nastavnik { get; set; }
-       
+       public int SkolskaGodinaId { get; set; }
         public string SkolskaGodina { get; set; }
         [DataType(DataType.Date)]
         public DateTime Datum { get; set; }
