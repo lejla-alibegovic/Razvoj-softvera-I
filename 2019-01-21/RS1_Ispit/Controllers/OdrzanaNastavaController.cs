@@ -79,7 +79,58 @@ namespace RS1_Ispit_asp.net_core.Controllers
             };
             return View(model);
         }
+        public bool Provjera(int id)
+        {
+            foreach(var x in db.DodjeljenPredmet
+                .Include(c=>c.OdjeljenjeStavka).ThenInclude(c=>c.Odjeljenje)
+                .Where(c=>c.OdjeljenjeStavkaId==id && c.OdjeljenjeStavka.Odjeljenje.Razred == 4).ToList())
+            {
+                if (x.ZakljucnoKrajGodine == 1)
+                    return false;
+            }
+            MaturskiIspitStavka zadnjiPokusaj = db.MaturskiIspitStavka.Where(c => c.OdjeljenjeStavkaId == id).LastOrDefault();
+            if (zadnjiPokusaj != null && zadnjiPokusaj.BrojBodova < 55)
+                return true;
+            return false;
+        }
+        public IActionResult Snimi(DodajVM model)
+        {
+            PredajePredmet p = db.PredajePredmet.Find(model.NastavnikId);
+            if (p != null)
+            {
+                MaturskiIspit ispit = new MaturskiIspit
+                {
+                    Datum = model.Datum,
+                    PredmetId = model.PredmetId,
+                    SkolaId = model.SkolaId,
+                    NastavnikId = model.NastavnikId
+                    
+                };
+                db.Add(ispit);
+                db.SaveChanges();
 
-        
+                List<OdjeljenjeStavka> ucenici = db.OdjeljenjeStavka
+                    .Include(x => x.Odjeljenje)
+                    .Where(x => x.Odjeljenje.Razred == 4 && x.Odjeljenje.SkolaID == model.SkolaId).ToList();
+                foreach (var i in ucenici)
+                {
+                    if (Provjera(i.Id))
+                    {
+                        MaturskiIspitStavka stavka = new MaturskiIspitStavka
+                        {
+                            MaturskiIspitId = ispit.Id,
+                            OdjeljenjeStavkaId = i.Id,
+                            IsPristupio = false,
+                            Prosjek = db.DodjeljenPredmet.Where(y => y.OdjeljenjeStavkaId == i.Odjeljenje.Id).Average(y => y.ZakljucnoKrajGodine),
+                            BrojBodova = 0
+                        };
+                        db.Add(stavka);
+                        db.SaveChanges();
+                    }
+                }
+                return Redirect("Prikaz?NastavnikId=" + model.NastavnikId);
+            }
+            return Redirect("Index");
+        }
     }
 }
