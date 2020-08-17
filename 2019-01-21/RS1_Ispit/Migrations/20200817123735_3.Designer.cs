@@ -11,9 +11,10 @@ using System;
 namespace RS1_Ispit_asp.net_core.Migrations
 {
     [DbContext(typeof(MojContext))]
-    partial class MojContextModelSnapshot : ModelSnapshot
+    [Migration("20200817123735_3")]
+    partial class _3
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -55,6 +56,8 @@ namespace RS1_Ispit_asp.net_core.Migrations
 
                     b.Property<int>("SkolaId");
 
+                    b.Property<int>("SkolskaGodinaId");
+
                     b.HasKey("Id");
 
                     b.HasIndex("NastavnikId");
@@ -62,6 +65,8 @@ namespace RS1_Ispit_asp.net_core.Migrations
                     b.HasIndex("PredmetId");
 
                     b.HasIndex("SkolaId");
+
+                    b.HasIndex("SkolskaGodinaId");
 
                     b.ToTable("MaturskiIspit");
                 });
@@ -254,6 +259,11 @@ namespace RS1_Ispit_asp.net_core.Migrations
                     b.HasOne("RS1_Ispit_asp.net_core.EntityModels.Skola", "Skola")
                         .WithMany()
                         .HasForeignKey("SkolaId")
+                        .OnDelete(DeleteBehavior.Cascade);
+
+                    b.HasOne("RS1_Ispit_asp.net_core.EntityModels.SkolskaGodina", "SkolskaGodina")
+                        .WithMany()
+                        .HasForeignKey("SkolskaGodinaId")
                         .OnDelete(DeleteBehavior.Cascade);
                 });
 
