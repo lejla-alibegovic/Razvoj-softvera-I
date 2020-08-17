@@ -19,9 +19,7 @@ namespace RS1_Ispit_asp.net_core.EntityModels
         [ForeignKey(nameof(SkolaId))]
         public Skola Skola { get; set; }
         public int SkolaId { get; set; }
-        [ForeignKey(nameof(SkolskaGodinaId))]
-        public SkolskaGodina SkolskaGodina { get; set; }
-        public int SkolskaGodinaId { get; set; }
+       
         public string Napomena { get; set; }
 
     }
