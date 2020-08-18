@@ -57,7 +57,21 @@ namespace RS1_Ispit_asp.net_core.Controllers
             }
             return View(model);
         }
+        private bool Provjera(int id)
+        {
+            foreach (var u in db.DodjeljenPredmet
+                        .Include(d => d.OdjeljenjeStavka).ThenInclude(d => d.Odjeljenje)
+                        .Where(d => d.OdjeljenjeStavkaId == id && d.OdjeljenjeStavka.Odjeljenje.Razred == 4).ToList())
+            {
+                if (u.ZakljucnoKrajGodine == 1)
+                    return false;
 
+            }
+            MaturskiIspitStavka zadnji = db.MaturskiIspitStavka.Where(d => d.OdjeljenjeStavkaId == id).LastOrDefault();
+            if (zadnji != null && zadnji.BrojBodova < 55)
+                return true;
+            return false;
+        }
         public IActionResult Dodaj(int NastavnikId)
         {
             DodajVM model = new DodajVM
@@ -79,54 +93,37 @@ namespace RS1_Ispit_asp.net_core.Controllers
             };
             return View(model);
         }
-        public bool Provjera(int id)
-        {
-            foreach(var x in db.DodjeljenPredmet
-                .Include(c=>c.OdjeljenjeStavka).ThenInclude(c=>c.Odjeljenje)
-                .Where(c=>c.OdjeljenjeStavkaId==id && c.OdjeljenjeStavka.Odjeljenje.Razred == 4).ToList())
-            {
-                if (x.ZakljucnoKrajGodine == 1)
-                    return false;
-            }
-            MaturskiIspitStavka zadnjiPokusaj = db.MaturskiIspitStavka.Where(c => c.OdjeljenjeStavkaId == id).LastOrDefault();
-            if (zadnjiPokusaj != null && zadnjiPokusaj.BrojBodova < 55)
-                return true;
-            return false;
-        }
+     
         public IActionResult Snimi(DodajVM model)
         {
-           
-                MaturskiIspit ispit = new MaturskiIspit
-                {
-                    Datum = model.Datum,
-                    PredmetId = model.PredmetId,
-                    SkolaId = model.SkolaId,
-                    NastavnikId = model.NastavnikId
-                    
-                };
-                db.Add(ispit);
-                db.SaveChanges();
+            MaturskiIspit maturskiIspit = new MaturskiIspit
+            {
+                Datum = model.Datum,
+                NastavnikId = model.NastavnikId,
+                PredmetId = model.PredmetId,
+                SkolaId = model.SkolaId,
+                
+            };
+            db.Add(maturskiIspit);
+            db.SaveChanges();
+            List<OdjeljenjeStavka> ucenici = db.OdjeljenjeStavka.Include(x => x.Odjeljenje).
+                Where(x => x.Odjeljenje.Razred == 4 && x.Odjeljenje.SkolaID == model.SkolaId).ToList();
 
-                List<OdjeljenjeStavka> ucenici = db.OdjeljenjeStavka
-                    .Include(x => x.Odjeljenje)
-                    .Where(x => x.Odjeljenje.Razred == 4 && x.Odjeljenje.SkolaID == model.SkolaId).ToList();
-                foreach (var i in ucenici)
+            foreach(var i in ucenici)
+            {
+                if (Provjera(i.Id))
                 {
-                    if (Provjera(i.Id))
+                    MaturskiIspitStavka m = new MaturskiIspitStavka
                     {
-                        MaturskiIspitStavka stavka = new MaturskiIspitStavka
-                        {
-                            MaturskiIspitId = ispit.Id,
-                            OdjeljenjeStavkaId = i.Id,
-                            IsPristupio = false,
-                            Prosjek = db.DodjeljenPredmet.Where(y => y.OdjeljenjeStavkaId == i.Odjeljenje.Id).Average(y => y.ZakljucnoKrajGodine),
-                            BrojBodova = 0
-                        };
-                        db.Add(stavka);
-                        db.SaveChanges();
-                    }
+                        MaturskiIspitId = maturskiIspit.Id,
+                        OdjeljenjeStavkaId = i.Id
+                    };
+                    db.Add(m);
+                    db.SaveChanges();
                 }
-                return Redirect("Prikaz?NastavnikId=" + model.NastavnikId); 
+            }
+            return Redirect("Prikaz?NastavnikId=" + model.NastavnikId);
+            
         }
         public IActionResult Uredi(int MaturskiIspitId)
         {
@@ -144,17 +141,17 @@ namespace RS1_Ispit_asp.net_core.Controllers
         }
         public IActionResult AjaxSnimi(UrediVM model)
         {
-            MaturskiIspit ispit = db.MaturskiIspit.Find(model.MaturskiIspitId);
+            var ispit = db.MaturskiIspit.Where(x => x.Id == model.MaturskiIspitId).SingleOrDefault();
             ispit.Napomena = model.Napomena;
             db.SaveChanges();
-            return Redirect("/OdrzanaNastava/Uredi/" + model.MaturskiIspitId);  
+            return Redirect("Uredi?MaturskiIspitId=" + model.MaturskiIspitId);  
         }
         public IActionResult AjaxPrikazUcenika(int ID)
         {
-            IEnumerable<AjaxPrikazVM> vm = db.MaturskiIspitStavka.Where(x => x.MaturskiIspitId == ID).Select(x => new AjaxPrikazVM
+            IEnumerable<AjaxPrikazVM> vm = db.MaturskiIspitStavka.Where(x => x.MaturskiIspitId == ID).Include(x=>x.OdjeljenjeStavka).ThenInclude(x=>x.Ucenik).Select(x => new AjaxPrikazVM
             {
                 IsPristupio = x.IsPristupio,
-                Prosjek = x.Prosjek,
+                Prosjek = db.DodjeljenPredmet.Where(y=>y.OdjeljenjeStavkaId==x.OdjeljenjeStavka.Id).Average(y=>y.ZakljucnoKrajGodine),
                 BrojBodova = x.BrojBodova,
                 Ucenik = x.OdjeljenjeStavka.Ucenik.ImePrezime,
                 MaturskiIspitStavkaId = x.Id
@@ -163,26 +160,29 @@ namespace RS1_Ispit_asp.net_core.Controllers
         }
         public IActionResult UcenikJeOdsutan(int MaturskiIspitStavkaId)
         {
-            MaturskiIspitStavka stavka = db.MaturskiIspitStavka.Where(x => x.Id == MaturskiIspitStavkaId).SingleOrDefault();
+            var stavka = db.MaturskiIspitStavka.Where(x => x.Id == MaturskiIspitStavkaId).SingleOrDefault();
+            var ispit = db.MaturskiIspit.Where(x => x.Id == stavka.MaturskiIspitId).SingleOrDefault();
             stavka.IsPristupio = false;
             db.SaveChanges();
-            return Redirect("/OdrzanaNastava/AjaxPrikazUcenika" + stavka.Id);
+            return Redirect("/OdrzanaNastava/Uredi?MaturskiIspitId=" + ispit.Id);
         }
         public IActionResult UcenikJePrisutan(int MaturskiIspitStavkaId)
         {
-            MaturskiIspitStavka stavka = db.MaturskiIspitStavka.Where(x => x.Id == MaturskiIspitStavkaId).SingleOrDefault();
+            var stavka = db.MaturskiIspitStavka.Where(x => x.Id == MaturskiIspitStavkaId).SingleOrDefault();
+            var ispit = db.MaturskiIspit.Where(x => x.Id == stavka.MaturskiIspitId).SingleOrDefault();
+
             stavka.IsPristupio = true;
             db.SaveChanges();
-            return Redirect("/OdrzanaNastava/AjaxPrikazUcenika" + stavka.Id);
+            return Redirect("/OdrzanaNastava/Uredi?MaturskiIspitId=" + ispit.Id);
         }
-        public IActionResult AjaxUredi(int id)
+        public IActionResult AjaxUredi(int MaturskiIspitStavkaid)
         {
-            AjaxUrediVM vm = db.MaturskiIspitStavka.Where(x => x.Id == id).Select(x => new AjaxUrediVM
+            AjaxUrediVM vm = db.MaturskiIspitStavka.Where(x => x.Id == MaturskiIspitStavkaid).Select(x => new AjaxUrediVM
             {
                 BrojBodova=x.BrojBodova,
                 Ucenik=x.OdjeljenjeStavka.Ucenik.ImePrezime,
-                MaturskiIspitStavkaId=x.Id
-            }).FirstOrDefault();
+                MaturskiIspitStavkaId=x.Id,
+            }).SingleOrDefault();
             return PartialView(vm);
         }
         public IActionResult AjaxUrediSnimi(AjaxUrediVM model)
@@ -193,12 +193,12 @@ namespace RS1_Ispit_asp.net_core.Controllers
             db.SaveChanges();
             return Redirect("/OdrzanaNastava/AjaxPrikazUcenika/" + stavka.MaturskiIspitId);
         }
-        public IActionResult UpdateBodova(int MaturskiIspitStavkaId,int Bodovi)
+        public IActionResult UpdateBodova(int BrojBodova, int MaturskiIspitStavkaId)
         {
-            var stavka = db.MaturskiIspitStavka.Where(x => x.Id == MaturskiIspitStavkaId).SingleOrDefault();
-            stavka.BrojBodova = Bodovi;
+            MaturskiIspitStavka stavka = db.MaturskiIspitStavka.Find(MaturskiIspitStavkaId);
+            stavka.BrojBodova = BrojBodova;
             db.SaveChanges();
-            return Redirect("/OdrzanaNastava/AjaxPrikazUcenika/" + stavka.MaturskiIspitId);
+            return Redirect("/OdrzanaNastava/Uredi?MaturskiIspitId=" + stavka.MaturskiIspitId);
         }
     }
 }
