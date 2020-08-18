@@ -31,8 +31,8 @@
                     else
                     {
                         <form ajax-poziv="da" ajax-rezultat="ajaxDiv" action="/OdrzanaNastava/UpdateBodova">
-                            <input type="hidden" name="MaturskiIspitId" value="@x.MaturskiIspitStavkaId" />
-                            <input style="text-align:center;" type="number" name="BrojBodova" value="@x.BrojBodova" />
+                            <input type="hidden" name="MaturskiIspitStavkaId" value="@x.MaturskiIspitStavkaId" />
+                            <input style="text-align:center;" type="text" name="BrojBodova" value="@x.BrojBodova" />
                             <input style="visibility:hidden;" type="submit" />
                         </form>
                     }
