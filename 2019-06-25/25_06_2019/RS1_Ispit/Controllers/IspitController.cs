@@ -31,5 +31,24 @@ namespace RS1_Ispit_asp.net_core.Controllers
             });
             return View("Index",vm);
         }
+        public IActionResult Prikaz(int Id)
+        {
+            PrikazVM vm = db.Angazovan.Where(x => x.Id == Id).Select(x => new PrikazVM
+            {
+                AkademskaGodian = x.AkademskaGodina.Opis,
+                Predmet = x.Predmet.Naziv,
+                NastavnikImePrezime = x.Nastavnik.Ime + " " + x.Nastavnik.Prezime,
+                AngazovanId = x.Id,
+                rows = db.Ispit.Where(y => y.AngazovanId == x.Id).Select(y => new PrikazVM.Row
+                {
+                    BrojPrijavljenih = db.IspitStavka.Count(z => z.IspitId == y.Id && z.IsPrijavio),
+                    BrojStutenataNisuPolozili = db.IspitStavka.Count(z => z.IspitId == y.Id && !z.IsPolozio),
+                    IsEvidentirano = y.IsZakljucano,
+                    Datum = y.Datum.ToShortDateString(),
+                    IspitId = y.Id
+                })
+            }).FirstOrDefault();
+            return View(vm);
+        }
     }
 }
