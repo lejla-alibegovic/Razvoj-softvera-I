@@ -67,3 +67,17 @@ C:\Users\Lejla\Desktop\04.02.2019\RS1_Ispit_2019_02_04_aspnet_core\RS1_Ispit\obj
 C:\Users\Lejla\Desktop\04.02.2019\RS1_Ispit_2019_02_04_aspnet_core\RS1_Ispit\obj\Debug\netcoreapp2.0\RS1_Ispit_asp.net_core.AssemblyInfo.cs
 C:\Users\Lejla\Desktop\04.02.2019\RS1_Ispit_2019_02_04_aspnet_core\RS1_Ispit\obj\Debug\netcoreapp2.0\RS1_Ispit_asp.net_core.dll
 C:\Users\Lejla\Desktop\04.02.2019\RS1_Ispit_2019_02_04_aspnet_core\RS1_Ispit\obj\Debug\netcoreapp2.0\RS1_Ispit_asp.net_core.pdb
+C:\Users\Lejla\Documents\GitHub\Razvoj-softvera-I\2019-02-04\RS1_Ispit\bin\Debug\netcoreapp2.0\appsettings.Development.json
+C:\Users\Lejla\Documents\GitHub\Razvoj-softvera-I\2019-02-04\RS1_Ispit\bin\Debug\netcoreapp2.0\bundleconfig.json
+C:\Users\Lejla\Documents\GitHub\Razvoj-softvera-I\2019-02-04\RS1_Ispit\bin\Debug\netcoreapp2.0\Properties\launchSettings.json
+C:\Users\Lejla\Documents\GitHub\Razvoj-softvera-I\2019-02-04\RS1_Ispit\bin\Debug\netcoreapp2.0\appsettings.json
+C:\Users\Lejla\Documents\GitHub\Razvoj-softvera-I\2019-02-04\RS1_Ispit\bin\Debug\netcoreapp2.0\RS1_Ispit_asp.net_core.deps.json
+C:\Users\Lejla\Documents\GitHub\Razvoj-softvera-I\2019-02-04\RS1_Ispit\bin\Debug\netcoreapp2.0\RS1_Ispit_asp.net_core.runtimeconfig.json
+C:\Users\Lejla\Documents\GitHub\Razvoj-softvera-I\2019-02-04\RS1_Ispit\bin\Debug\netcoreapp2.0\RS1_Ispit_asp.net_core.runtimeconfig.dev.json
+C:\Users\Lejla\Documents\GitHub\Razvoj-softvera-I\2019-02-04\RS1_Ispit\bin\Debug\netcoreapp2.0\RS1_Ispit_asp.net_core.dll
+C:\Users\Lejla\Documents\GitHub\Razvoj-softvera-I\2019-02-04\RS1_Ispit\bin\Debug\netcoreapp2.0\RS1_Ispit_asp.net_core.pdb
+C:\Users\Lejla\Documents\GitHub\Razvoj-softvera-I\2019-02-04\RS1_Ispit\obj\Debug\netcoreapp2.0\RS1_Ispit_asp.net_core.csprojAssemblyReference.cache
+C:\Users\Lejla\Documents\GitHub\Razvoj-softvera-I\2019-02-04\RS1_Ispit\obj\Debug\netcoreapp2.0\RS1_Ispit_asp.net_core.AssemblyInfoInputs.cache
+C:\Users\Lejla\Documents\GitHub\Razvoj-softvera-I\2019-02-04\RS1_Ispit\obj\Debug\netcoreapp2.0\RS1_Ispit_asp.net_core.AssemblyInfo.cs
+C:\Users\Lejla\Documents\GitHub\Razvoj-softvera-I\2019-02-04\RS1_Ispit\obj\Debug\netcoreapp2.0\RS1_Ispit_asp.net_core.dll
+C:\Users\Lejla\Documents\GitHub\Razvoj-softvera-I\2019-02-04\RS1_Ispit\obj\Debug\netcoreapp2.0\RS1_Ispit_asp.net_core.pdb
