@@ -1,0 +1,23 @@
+﻿@model RS1_Ispit_asp.net_core.ViewModels.DetaljiVM
+@{
+    ViewData["Title"] = "Detalji";
+}
+
+<form>
+        <label>Datum</label>
+        <input asp-for="Datum" readonly class="form-control" />
+        <label>Skola/Odjeljenje/Predmet</label>
+        <input asp-for="SkolaOdjeljenjePredmet" readonly class="form-control" />
+        <label>Sadržaj časa</label>
+        <input asp-for="Sadrzaj" readonly class="form-control"/>
+</form>
+<br /><br />
+<div id="ajaxDiv" style="border:1px solid black;padding:10px;"></div>
+
+<script>
+    $(function () {
+        $.get("Stavke?OdrzaniCasId=@Model.OdrzaniCasId", function (data) {
+            $("#ajaxDiv").html(data);
+        });
+    });
+</script>

@@ -1,0 +1,58 @@
+﻿@model RS1_Ispit_asp.net_core.ViewModels.StavkeVM
+@{
+    ViewData["Title"] = "Stavke";
+}
+
+<table class="table table-bordered text-center">
+    <thead>
+        <tr>
+            <th>Učenik</th>
+            <th>Ocjena</th>
+            <th>Prisutan</th>
+            <th>Opravdano odsutan</th>
+            <th>Akcija</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach(var x in Model.rows)
+        {
+        <tr>
+            <td>@x.Ucenik</td>
+            @if (x.IsPrisutan)
+            {
+                <td>
+                    <form action="UpdateBodova">
+                        <input type="hidden" name="Id" value="@x.StavkaId" />
+                        <input type="number" name="Ocjena" value="@x.Ocjena" />
+                        <input type="submit" style="visibility:hidden" />
+                    </form>
+                </td>
+            }
+            else
+            {
+                <td></td>
+            }
+            <td>
+                <a style="background-color:@(x.IsPrisutan?"green":"red");color:white;"
+                   ajax-poziv="da" ajax-rezultat="ajaxDiv"
+                   href="@(x.IsPrisutan?"UcenikJeOdsutan":"UcenikJePrisutan")?StavkaId=@x.StavkaId">
+                    @(x.IsPrisutan ? "Prisutan" : "Odsutan")
+                </a>
+            </td>
+            @if (x.IsPrisutan)
+            {
+                <td></td>
+                <td><a ajax-poziv="da" ajax-rezultat="ajaxDiv" asp-action="UrediPrisutan" asp-route-StavkaId="@x.StavkaId">Uredi</a></td>
+            }
+            else
+            {
+                <td>@(x.IsOpravdan ? "Da" : "Ne")</td>
+                <td><a ajax-poziv="da" ajax-rezultat="ajaxDiv" asp-action="UrediOdsutan" asp-route-StavkaId="@x.StavkaId">Uredi</a></td>
+
+            }
+        </tr>
+        }
+    </tbody>
+
+</table>
+

@@ -1,0 +1,15 @@
+﻿@model RS1_Ispit_asp.net_core.ViewModels.UrediPrisutanVM
+@{
+    ViewData["Title"] = "UrediPrisutan";
+}
+
+<form asp-action="SnimiPrisutan">
+    <input type="hidden" asp-for="StavkaId"/>
+    <label>Ucenik</label>
+    <input readonly class="form-control" asp-for="Ucenik"/>
+    <label>Ocjena</label>
+    <input  asp-for="Ocjena" class="form-control"/>
+    <br /><br />
+    <input type="submit" value="Snimi" class="btn btn-primary"/>
+</form>
+

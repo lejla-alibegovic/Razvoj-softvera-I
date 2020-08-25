@@ -18,7 +18,7 @@
             <tr>
                 <td>@x.Nastavnik</td>
                 <td>@x.BrojOdrzanihCasova</td>
-                <td><a href="/OdrzanaNastava/Prikaz/@x.NastavnikId/">Odaberi</a></td>
+                <td><a asp-action="Prikaz" asp-route-NastavnikId="@x.NastavnikId">Odaberi</a></td>
             </tr>
         }
     </tbody>
