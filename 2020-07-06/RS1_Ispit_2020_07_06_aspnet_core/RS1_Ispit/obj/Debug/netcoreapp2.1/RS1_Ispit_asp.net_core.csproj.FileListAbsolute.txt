@@ -67,3 +67,4 @@ C:\Users\Lejla\Documents\GitHub\Razvoj-softvera-I\2020-07-06\RS1_Ispit_2020_07_0
 C:\Users\Lejla\Documents\GitHub\Razvoj-softvera-I\2020-07-06\RS1_Ispit_2020_07_06_aspnet_core\RS1_Ispit\obj\Debug\netcoreapp2.1\RS1_Ispit_asp.net_core.dll
 C:\Users\Lejla\Documents\GitHub\Razvoj-softvera-I\2020-07-06\RS1_Ispit_2020_07_06_aspnet_core\RS1_Ispit\obj\Debug\netcoreapp2.1\RS1_Ispit_asp.net_core.pdb
 C:\Users\Lejla\Documents\GitHub\Razvoj-softvera-I\2020-07-06\RS1_Ispit_2020_07_06_aspnet_core\RS1_Ispit\obj\Debug\netcoreapp2.1\RS1_Ispit_asp.net_core.csproj.CopyComplete
+C:\Users\Lejla\Documents\GitHub\Razvoj-softvera-I\2020-07-06\RS1_Ispit_2020_07_06_aspnet_core\RS1_Ispit\obj\Debug\netcoreapp2.1\Razor\Views\Takmicenje\Index.cshtml.g.cs
