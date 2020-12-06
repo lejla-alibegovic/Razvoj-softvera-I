@@ -1,0 +1,73 @@
+﻿@model RS1_Ispit_asp.net_core.ViewModels.IndexVM
+@{
+    ViewData["Title"] = "Index";
+}
+
+<form action="/Takmicenje/Prikaz">
+    Škola:<select class="form-control" id="skola" name="skolaId">
+    @foreach (var x in Model.Skole)
+    {
+        if (x.Value == Model.SkolaId.ToString())
+        {
+            <option value="@x.Value" selected>@x.Text</option>
+        }
+        else
+        {
+          <option value="@x.Value">@x.Text</option>
+        }
+    }
+</select>
+    Razred: <select class="form-control" name="razred">
+    <option value="0"></option>
+    <option value="1">1</option>
+    <option value="2">2</option>
+    <option value="3">3</option>
+    <option value="4">4</option>
+</select>
+    <br /><br />
+    <button type="submit" class="btn btn-primary">Filtriraj</button>
+</form>
+<br /><br />
+<table class="table table-bordered text-center">
+    <thead>
+        <tr>
+            <th>Skola</th>
+            <th>Razred</th>
+            <th>Datum</th>
+            <th>Predmet</th>
+            <th>Najbolji ucenik</th>
+            <th>Akcija</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach(var x in Model.tabela)
+        {
+            <tr>
+                <td>@x.Skola</td>
+                <td>@x.Razred</td>
+                <td>@x.Datum.ToShortDateString()</td>
+                <td>@x.Predmet</td>
+                <td>@x.NajboljiUcenik</td>
+                <td><a href="/Takmicenje/Rezultati?=@x.TakmicenjeId">Rezultati</a></td>
+            </tr>
+        }
+    </tbody>
+</table>
+<br />
+<a class="btn btn-primary" id="dodaj">Dodaj</a>
+
+<script>
+    $(document).change(function (parm) {
+        var skid = $("#skola").val();
+        $("#dodaj").click(function (par) {
+            location.href = "/Takmicenje/Dodaj?=" + skid;
+        });
+    });
+    $(document).ready(function (parm) {
+        var skid = $("#skola").val();
+        $("#dodaj").click(function (par) {
+            location.href = "/Takmicenje/Dodaj?=" + skid;
+        });
+    });
+</script>
+

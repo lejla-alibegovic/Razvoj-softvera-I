@@ -1,0 +1,56 @@
+﻿@model RS1_Ispit_asp.net_core.ViewModels.TakmicenjeStavkeVM
+@{
+    ViewData["Title"] = "TakmicenjeStavke";
+}
+
+<table class=" table table-bordered text-center">
+    <thead>
+        <tr>
+            <th>Odjeljenje</th>
+            <th>Broj u dnevniku</th>
+            <th>Pristupio</th>
+            <th>Rezultat bodovi</th>
+            <th>Akcija</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach(var x in Model.rows)
+        {
+            <tr>
+                <td>@x.Odjeljenje</td>
+                <td>@x.BrojUDnevniku</td>
+                @if (Model.Zakljucano)
+                {
+                    <td>
+                        <a style="background-color:@(x.IsPristupio?"green":"red")">@(x.IsPristupio?"Da":"Ne")</a>
+                    </td>
+                    <td>
+                        <input readonly value="@x.Bodovi"/>
+                    </td>
+                    <td></td>
+                }
+                else
+                {
+                    <td>
+                        <a style="background-color:@(x.IsPristupio?"green":"red")" 
+                           asp-action="@(x.IsPristupio?"UcenikJeOdsutan":"UcenikJePrisutan")" asp-route-StavkaId="@x.StavkaId">
+                            @(x.IsPristupio ? "Da" : "Ne")
+                        </a>
+                    </td>
+                    <td>
+                        <form action="/Takmicenje/UpdateBodova" ajax-poziv="da" ajax-rezultat="ajaxDiv">
+                            <input type="hidden" name="StavkaId" value="@x.StavkaId"/>
+                            <input value="@x.Bodovi" name="Bodovi"/>
+                            <input style="visibility:hidden" type="submit"/>
+                        </form>
+                    </td>
+                    <td>
+                        <a>Uredi</a>
+                    </td>
+                }
+            </tr>
+        }
+    </tbody>
+</table>
+<br />
+

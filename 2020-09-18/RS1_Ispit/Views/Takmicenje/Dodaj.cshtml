@@ -1,0 +1,30 @@
+﻿@model RS1_Ispit_asp.net_core.ViewModels.DodajVM
+@{
+    ViewData["Title"] = "Dodaj";
+}
+
+<h2>Dodaj takmičenje</h2>
+<form action="/Takmicenje/SnimiTakmicenje">
+    Predemt:<select class="form-control" name="predmetid">
+    @foreach(var x in Model.Predmeti)
+    {
+        <option value="@x.Value">@x.Text</option>
+    }
+    </select>
+    Skola:<select class="form-control" name="skolaid">
+    @foreach (var x in Model.Skole)
+    {
+        if (x.Value == Model.SkolaId.ToString())
+        {
+            <option value="@x.Value" selected>@x.Text</option>
+        }
+        else
+        {
+            <option value="@x.Value" disabled>@x.Text</option>
+        }
+    }
+</select>
+    Datum: <input  class="form-control" type="text" value="@Model.Datum.ToShortDateString()" readonly name="datum"/>
+<button type="submit"class="btn btn-primary">Snimi</button>
+</form>
+
